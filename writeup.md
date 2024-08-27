@@ -1,6 +1,6 @@
 We have no info about the machine we can begin finding the IP of the machine and some open ports
 
-nmap -sn 172.20.10.0/24 
+nmap -sn 172.20.10.0/24
 Nmap scan report for 172.20.10.2
 Host is up (0.00025s latency).
 
@@ -9,7 +9,7 @@ We will make an agressive test on the IP to check open ports and some exploit op
 21/tcp  open  ftp        vsftpd 2.0.8 or later
 |_ftp-anon: got code 500 "OOPS: vsftpd: refusing to run with writable root inside chroot()".
 22/tcp  open  ssh        OpenSSH 5.9p1 Debian 5ubuntu1.7 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey: 
+| ssh-hostkey:
 |   1024 07:bf:02:20:f0:8a:c8:48:1e:fc:41:ae:a4:46:fa:25 (DSA)
 |   2048 26:dd:80:a3:df:c4:4b:53:1e:53:42:46:ef:6e:30:b2 (RSA)
 |_  256 cf:c3:8c:31:d7:47:7c:84:e2:d2:16:31:b2:8e:63:a7 (ECDSA)
@@ -39,22 +39,22 @@ We have some interesting results we can see that we have a forum, a squirrelmail
 
 With wappalyzer extension we can see that squirrel mail version is 1.4.22
 
-We have a lot of users 
-admin 	
-lmezard 	  	 
-qudevide   	 
-thor 	  	 
-wandre   	 
+We have a lot of users
+admin
+lmezard
+qudevide
+thor
+wandre
 zaz
 
-we found a password for lmezard on a post : !q\]Ej?*5K5cy*AJ 
+we found a password for lmezard on a post : !q\]Ej?*5K5cy*AJ
 With this password we can connect on forum.
 
 we found it's mail laurie@borntosec.net we can now connect to squirrelmail
 
 In squirrelmail we have a db root password root/Fg-'kKXBj87E:aJ$
 
-This access gives us something interesting squirrel 1.4.22 is vulnerable to a remote code execution it means that we can have a shell or we can inject a shell in 
+This access gives us something interesting squirrel 1.4.22 is vulnerable to a remote code execution it means that we can have a shell or we can inject a shell in
 phpmyadmin
 
 We must find a file where we can upload our shell here it is : templates_c found on the documentation.
@@ -85,12 +85,26 @@ we have a file in lmezard home named fun if we make strings fun we can see with 
 	printf("\n");
 	printf("Now SHA-256 it and submit");
 
-I made a python script to parse files .pcap but only ascii text 
+I made a python script to parse files .pcap but only ascii text
 The format of files is /file followed by number and then the content I put it in C files and then compile
 
 Iheartpwnage in SHA256 = 330b845f32185747e4f8ca15d40ca59796035c89ea809fb5d30f4da83ecf45a4
 
-Now we have bomb binary decompiling it we can try to defuse : 
+Now we have bomb binary decompiling it we can try to defuse :
+
 First input : Public speaking is very easy.
+
+Each subsequent number must follow the pattern defined in the loop:
+    v4[i]=v4[i-1]×(i+1)
+    v4[0] = 1
+	v4[1]= v4[0]× 2 = 2
+    v4[2]= v4[1]× 3 = 2 × 3 = 6
+    v4[3]= v4[2]× 4 = 6 × 4 = 24
+    v4[4]= v4[3]× 5 = 24 × 5 = 120
+    v4[5]= v4[4]× 6 = 120 × 6 = 720
+
+Second input : 1 2 6 24 120 720
+
+Third input : 
 
 
