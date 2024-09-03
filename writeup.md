@@ -143,7 +143,8 @@ array_123[15] + array_123[0] + array_123[5] + array_123[11] + array_123[13] + ar
 index = index & 15
 
 Fifth input : o0ukmA (one of the possibility more in the script)
-# if we only take ascii lowercase uppercase and digits
+
+If we only take ascii lowercase uppercase and digits
 g: ['o', 'O']
 i: ['p', 'P', '0']
 a: ['e', 'u', 'E', 'U', '5']
